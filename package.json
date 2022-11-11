@@ -1,0 +1,30 @@
+{
+  "name": "crbv-app-backend",
+  "version": "1.0.0",
+  "description": "MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "start-dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juanfaricelli/crbv-app-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/juanfaricelli/crbv-app-backend/issues"
+  },
+  "homepage": "https://github.com/juanfaricelli/crbv-app-backend#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongodb": "^4.10.0",
+    "mongoose": "^6.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
