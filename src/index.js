@@ -5,26 +5,30 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 9000;
 
-const userRoutes = require('./routes/user');
-const specialtyRoutes = require('./routes/specialties');
-const locationRoutes = require('./routes/locations');
 const countryRoutes = require('./routes/countries');
-const healthInsurancesRoutes = require('./routes/health-insurances');
 const diagnosticsRoutes = require('./routes/diagnostics');
-const patientConditionsRoutes = require('./routes/patient-conditions');
+const healthInsurancesRoutes = require('./routes/health-insurances');
 const idTypesRoutes = require('./routes/id-types');
+const locationRoutes = require('./routes/locations');
+const patientConditionsRoutes = require('./routes/patient-conditions');
+const specialtyRoutes = require('./routes/specialties');
+const userPatientRoutes = require('./routes/user-patient');
+const userRoutes = require('./routes/user');
+const medicalRecordRoutes = require('./routes/medical-records');
 
 // middleware
 app.use(express.json());
 app.use('/api', [
-  userRoutes,
-  specialtyRoutes,
-  locationRoutes,
   countryRoutes,
-  healthInsurancesRoutes,
   diagnosticsRoutes,
-  patientConditionsRoutes,
+  healthInsurancesRoutes,
   idTypesRoutes,
+  locationRoutes,
+  patientConditionsRoutes,
+  specialtyRoutes,
+  userPatientRoutes,
+  userRoutes,
+  medicalRecordRoutes,
 ]);
 
 // routes

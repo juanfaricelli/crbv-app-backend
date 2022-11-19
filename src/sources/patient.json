@@ -1,0 +1,61 @@
+{
+  "username": "patientCero",
+  "password": {
+    "value": "patientCero",
+    "default": true
+  },
+  "role": {
+    "admin": false,
+    "staff": false,
+    "doctor": false,
+    "patient": true
+  },
+  "user_data": {
+    "id_type": {
+      "id": "6371260f90ef3ec376ac2dc0",
+      "name": "DNI"
+    },
+    "id_number": 32323232,
+    "first_name": "Joe",
+    "last_name": "Doe",
+    "age": 35,
+    "sex": {
+      "male": true,
+      "female": false,
+      "other": false
+    },
+    "phone": 5493512121212,
+    "health_insurance": {
+      "id": "636fdf7d5d6d6b76ddfdab86",
+      "name": "OSDE"
+    },
+    "health_insurance_id": 343434343434,
+    "marital_status": {
+      "single": true,
+      "married": false,
+      "divorced": false,
+      "widowed": false,
+      "cohabiting": false,
+      "civil_union": false
+    },
+    "nationality": "Argentino",
+    "country": {
+      "id": "636fd8bf0ddf9bba8f0f893a",
+      "name": "Argentina"
+    },
+    "province": {
+      "id": "636fd575514a033ac01c6dca",
+      "name": "Cordoba"
+    },
+    "location": {
+      "name": "CORDOBA",
+      "id": "636fd575514a033ac01c6e3b"
+    },
+    "street": "Av Calle Falsa",
+    "street_num": "1234",
+    "flat": "5",
+    "flat_num": "D",
+    "blood_pattern": "AB"
+  },
+  "clinical_history": "636fd575514a033ac01c6e3c"
+}
