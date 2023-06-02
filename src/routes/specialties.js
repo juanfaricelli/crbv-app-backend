@@ -71,8 +71,8 @@ router.put('/specialties/update', (req, res) => {
       },
     }
   )
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+  .then((data) => res.json(data))
+  .catch((error) => res.json({ message: error }));
 });
 
 module.exports = router;

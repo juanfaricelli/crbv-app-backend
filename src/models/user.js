@@ -65,12 +65,20 @@ const userSchema = mongoose.Schema(
         type: Number,
         required: true,
       },
-      sex: {
+      gender: {
         male: {
           type: Boolean,
           required: true,
         },
         female: {
+          type: Boolean,
+          required: true,
+        },
+        nonbinary: {
+          type: Boolean,
+          required: true,
+        },
+        transgender: {
           type: Boolean,
           required: true,
         },
@@ -81,6 +89,10 @@ const userSchema = mongoose.Schema(
       },
       phone: {
         type: Number,
+        required: true,
+      },
+      email: {
+        type: String,
         required: true,
       },
       health_insurance: idNamePropsSchema,
@@ -137,13 +149,33 @@ const userSchema = mongoose.Schema(
         type: String,
         required: true,
       },
-      blood_pattern: {
+      blood_type: {
         type: String,
         required: true,
+      },
+      mp: {
+        type: String,
+        required: false,
+      },
+      specialties: {
+        type: [idNamePropsSchema],
+        required: false,
+      },
+      working_days: {
+        type: [String],
+        required: false,
+      },
+      working_hours: {
+        type: [String],
+        required: false,
       },
     },
     medical_record: {
       type: String,
+      required: false,
+    },
+    active_user: {
+      type: Boolean,
       required: true,
     },
   },
