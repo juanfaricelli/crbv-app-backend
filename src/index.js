@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 9000;
+const uri = `mongodb+srv://${process.env.APP_MONGODB_USER}:${process.env.APP_MONGODB_PASS}@${process.env.APP_MONGODB_CLUSTER}/?retryWrites=true&w=majority`;
 
 const countryRoutes = require('./routes/countries');
 const diagnosticsRoutes = require('./routes/diagnostics');
@@ -35,9 +36,9 @@ app.use('/api', [
 app.get('/ping', (req, res) => res.send('pong'));
 app.get('/', (req, res) => res.send('Welcome to my API'));
 
-// mongodb connectioon
+// mongodb conection
 mongoose
-  .connect(process.env.APP_MONGODB_URI, {
+  .connect(uri, {
     dbName: process.env.APP_MONGODB_DB_CRBV,
   })
   .then(() =>

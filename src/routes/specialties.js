@@ -38,19 +38,19 @@ router.post('/specialties/populate', (req, res) => {
   ];
   Specialty.insertMany(specialties)
     .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+    .catch((error) => res.json({ message: `${error}` }));
 });
 
 router.get('/specialties', (req, res) => {
   Specialty.find({})
     .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+    .catch((error) => res.json({ message: `${error}` }));
 });
 
 router.get('/specialties/:id', (req, res) => {
-  Specialty.findOne({ _id: req.params.id})
+  Specialty.findOne({ _id: req.params.id })
     .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+    .catch((error) => res.json({ message: `${error}` }));
 });
 
 router.post('/specialties/add', (req, res) => {
@@ -58,7 +58,7 @@ router.post('/specialties/add', (req, res) => {
   specialty
     .save()
     .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+    .catch((error) => res.json({ message: `${error}` }));
 });
 
 router.put('/specialties/update', (req, res) => {
@@ -71,8 +71,8 @@ router.put('/specialties/update', (req, res) => {
       },
     }
   )
-  .then((data) => res.json(data))
-  .catch((error) => res.json({ message: error }));
+    .then((data) => res.json(data))
+    .catch((error) => res.json({ message: `${error}` }));
 });
 
 module.exports = router;

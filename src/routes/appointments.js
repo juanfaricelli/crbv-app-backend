@@ -8,7 +8,7 @@ router.post('/appointments/create', (req, res) => {
   appointment
     .save()
     .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+    .catch((error) => res.json({ message: `${error}` }));
 });
 
 // GET /appointments/new

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { newMedicalRecordForm } = require('../sources/helpers');
 
 const COLL_MEDICAL_RECORDS = 'medical_records';
 
@@ -43,8 +44,14 @@ const entrySchema = mongoose.Schema(
   { timestamps: true }
 );
 
+console.log('newMedicalRecordForm', newMedicalRecordForm);
 const medicalRecordSchema = mongoose.Schema(
   {
+    questionary: {
+      type: Object,
+      required: false,
+      default: { ...newMedicalRecordForm },
+    },
     entries: {
       type: [entrySchema],
       required: false,

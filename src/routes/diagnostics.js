@@ -18,19 +18,19 @@ router.post('/diagnostics/populate', (req, res) => {
   ];
   Diagnosis.insertMany(diagnostics)
     .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+    .catch((error) => res.json({ message: `${error}` }));
 });
 
 router.get('/diagnostics', (req, res) => {
   Diagnosis.find({})
     .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+    .catch((error) => res.json({ message: `${error}` }));
 });
 
 router.get('/diagnostics/:id', (req, res) => {
   Diagnosis.findOne({ _id: req.params.id })
     .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+    .catch((error) => res.json({ message: `${error}` }));
 });
 
 module.exports = router;
