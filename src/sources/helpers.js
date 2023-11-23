@@ -101,7 +101,7 @@ const formField = {
     placeholder = 'placeholder',
     name = 'inputname',
   }) => ({
-    inputType: 'number',
+    inputType: 'date',
     label,
     placeholder,
     name,
