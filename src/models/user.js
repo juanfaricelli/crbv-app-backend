@@ -53,6 +53,10 @@ const userSchema = mongoose.Schema(
         type: Number,
         required: true,
       },
+      born_date: {
+        type: Date,
+        required: true,
+      },
       first_name: {
         type: String,
         required: true,

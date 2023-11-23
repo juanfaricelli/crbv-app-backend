@@ -128,6 +128,11 @@ const patientNewFormFields = ({
     placeholder: 'Nº de Documento(solo números)',
     name: 'id_number',
   }),
+  born_date: formField.datepicker({
+    label: 'Fecha de Nacimiento',
+    placeholder: 'Fecha de Nacimiento',
+    name: 'born_date',
+  }),
   first_name: formField.inputText({
     label: 'Nombre',
     placeholder: 'Nombre',
