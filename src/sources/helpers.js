@@ -149,11 +149,11 @@ const patientNewFormFields = ({
     name: 'age',
   }),
   gender: formField.dropdown({
-    label: 'Orientacion Sexual',
+    label: 'Genero',
     options: genderOptions,
     name: 'gender',
     defaulOptionIndex: 4,
-    placeholder: 'Orientacion Sexual',
+    placeholder: 'Genero',
     valueKey: 'name',
     valueLabel: 'name',
   }),
