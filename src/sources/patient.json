@@ -15,13 +15,16 @@
       "id": "6371260f90ef3ec376ac2dc0",
       "name": "DNI"
     },
-    "id_number": 32323232,
+    "born_date": "1987-04-10",
+    "id_number": 32313231,
     "first_name": "Joe",
     "last_name": "Doe",
     "age": 35,
-    "sex": {
+    "gender": {
       "male": true,
       "female": false,
+      "nonbinary": false,
+      "transgender": false,
       "other": false
     },
     "phone": 5493512121212,
@@ -55,7 +58,8 @@
     "street_num": "1234",
     "flat": "5",
     "flat_num": "D",
-    "blood_pattern": "AB"
+    "blood_type": "AB",
+    "email": "juan.test@domain.com"
   },
   "active_user": true
 }
