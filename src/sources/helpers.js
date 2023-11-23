@@ -32,7 +32,7 @@ const maritalStatusOptions = [
   },
   {
     type: 'widowed',
-    name: 'Viuudo/a',
+    name: 'Viudo/a',
   },
   {
     type: 'cohabiting',
