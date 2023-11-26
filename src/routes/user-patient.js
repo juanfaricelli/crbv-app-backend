@@ -1,5 +1,8 @@
 const express = require('express');
-const { patientNewFormFields } = require('../sources/helpers');
+const {
+  patientNewFormFields,
+  patientNewObjectCreator,
+} = require('../sources/helpers');
 const { User } = require('../models/user');
 const { MedicalRecord } = require('../models/medical-record');
 const { IdType } = require('../models/id-types');
@@ -36,10 +39,24 @@ router.get('/user/patient/new', async (req, res) => {
 
 router.post('/user/patient/create', async (req, res) => {
   try {
+    const idTypes = await IdType.find({});
+    const healthInsurances = await HealthInsurance.find({});
+    const countries = await Country.find({});
+    const locations = await Location.find({});
     const medicalRecord = new MedicalRecord();
+
+    const newPatientPreObj = patientNewObjectCreator(
+      req.body,
+      idTypes,
+      healthInsurances,
+      countries,
+      locations
+    );
+
     const ret = await medicalRecord.save();
-    const patient = new User(req.body);
+    const patient = new User(newPatientPreObj);
     patient.medical_record = ret.id;
+
     patient
       .save()
       .then((data) => res.json(data))

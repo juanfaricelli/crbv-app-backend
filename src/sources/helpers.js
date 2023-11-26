@@ -114,7 +114,7 @@ const patientNewFormFields = ({
   countries,
   locations,
 }) => ({
-  idTypes: formField.dropdown({
+  id_types: formField.dropdown({
     label: 'Tipo de Documento',
     options: idTypes,
     name: 'id_types',
@@ -316,8 +316,104 @@ const medicalRecordNewEntryFields = ({
   }),
 });
 
+const patientNewObjectCreator = (
+  fieldRefs,
+  idTypes,
+  healthInsurances,
+  countries,
+  locations
+) => {
+  const {
+    id_types,
+    id_number,
+    born_date,
+    first_name,
+    last_name,
+    age,
+    gender,
+    blood_type,
+    health_insurance,
+    health_insurance_id,
+    marital_status,
+    nationality,
+    country,
+    province,
+    location,
+    street_num,
+    flat,
+    flat_num,
+    phone,
+    email,
+    street,
+  } = fieldRefs;
+
+  const getValueObject = (coll, userValue) => {
+    return coll
+      .map((collItem) => ({
+        id: collItem._id.toString(),
+        name: collItem.name,
+      }))
+      .find((collItem) => collItem.name === userValue);
+  };
+  const getLocation = () => {
+    const provinceObj = locations.find(
+      (location) => location.name === province
+    );
+    return getValueObject(provinceObj.cities, location);
+  };
+
+  const objectValueHelper = (coll, propToSave, userValue) => {
+    const valueObj = {};
+    coll.forEach((opt) => (valueObj[opt[propToSave]] = opt.name === userValue));
+    return valueObj;
+  };
+
+  return {
+    username: email,
+    password: {
+      value: `${last_name}${(Math.random() * (9999 - 1000) + 1000).toFixed()}`,
+      default: true,
+    },
+    role: {
+      admin: false,
+      staff: false,
+      doctor: false,
+      patient: true,
+    },
+    user_data: {
+      id_type: getValueObject(idTypes, id_types),
+      born_date,
+      id_number,
+      first_name,
+      last_name,
+      age,
+      gender: objectValueHelper(genderOptions, 'name', gender),
+      phone,
+      health_insurance: getValueObject(healthInsurances, health_insurance),
+      health_insurance_id,
+      marital_status: objectValueHelper(
+        maritalStatusOptions,
+        'type',
+        marital_status
+      ),
+      nationality,
+      country: getValueObject(countries, country),
+      province: getValueObject(locations, province),
+      location: getLocation(),
+      street,
+      street_num,
+      flat,
+      flat_num,
+      blood_type,
+      email,
+    },
+    active_user: true,
+  };
+};
+
 module.exports = {
   patientNewFormFields,
   medicalRecordNewEntryFields,
   newMedicalRecordForm,
+  patientNewObjectCreator,
 };
