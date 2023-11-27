@@ -73,13 +73,6 @@ router.get('/user/patient/:id_number', (req, res) => {
     .catch((error) => res.json({ message: `${error}` }));
 });
 
-router.get('/user/patient/:id_number', (req, res) => {
-  const { id_number } = req.params;
-  User.find({ 'user_data.id_number': id_number, 'role.patient': true })
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: `${error}` }));
-});
-
 router.put('/user/patient/:id_number/update', (req, res) => {
   const { id_number } = req.params;
   const filter = { 'user_data.id_number': id_number, 'role.patient': true };
