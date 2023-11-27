@@ -1,11 +1,21 @@
 const { newMedicalRecordForm } = require('./medicalRecordForm');
 
 const genderOptions = [
-  { name: 'male' },
-  { name: 'female' },
-  { name: 'nonbinary' },
-  { name: 'transgender' },
-  { name: 'other' },
+  { type: 'male',
+    name: 'Hombre',
+  },
+  { type: 'female',
+    name: 'Mujer',
+  },
+  { type: 'nonbinary',
+    name: 'No Binario',
+  },
+  { type: 'transgender',
+    name: 'Transgenero',
+  },
+  { type: 'other',
+    name: 'Prefiero no decir/Otros',
+  },
 ];
 const bloodTypeOptions = [
   { name: 'A+' },
@@ -387,7 +397,7 @@ const patientNewObjectCreator = (
       first_name,
       last_name,
       age,
-      gender: objectValueHelper(genderOptions, 'name', gender),
+      gender: objectValueHelper(genderOptions, 'type', gender),
       phone,
       health_insurance: getValueObject(healthInsurances, health_insurance),
       health_insurance_id,
