@@ -243,7 +243,7 @@ const patientNewFormFields = ({
     placeholder: 'Piso',
     name: 'flat',
   }),
-  Email: formField.inputText({
+  flat_num: formField.inputText({
     label: 'Depto',
     placeholder: 'Depto',
     name: 'flat_num',
