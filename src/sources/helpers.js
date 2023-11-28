@@ -363,18 +363,18 @@ const patientNewObjectCreator = (
         id: collItem._id.toString(),
         name: collItem.name,
       }))
-      .find((collItem) => collItem.name === userValue);
+      .find((collItem) => collItem.id === userValue);
   };
   const getLocation = () => {
     const provinceObj = locations.find(
-      (location) => location.name === province
+      (location) => location.id === province
     );
     return getValueObject(provinceObj.cities, location);
   };
 
   const objectValueHelper = (coll, propToSave, userValue) => {
     const valueObj = {};
-    coll.forEach((opt) => (valueObj[opt[propToSave]] = opt.name === userValue));
+    coll.forEach((opt) => (valueObj[opt[propToSave]] = opt.type === userValue));
     return valueObj;
   };
 
