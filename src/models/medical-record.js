@@ -44,7 +44,6 @@ const entrySchema = mongoose.Schema(
   { timestamps: true }
 );
 
-console.log('newMedicalRecordForm', newMedicalRecordForm);
 const medicalRecordSchema = mongoose.Schema(
   {
     questionary: {

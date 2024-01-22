@@ -73,12 +73,25 @@ router.get('/user/patient/:id_number', (req, res) => {
     .catch((error) => res.json({ message: `${error}` }));
 });
 
-router.put('/user/patient/:id_number/update', (req, res) => {
+router.put('/user/patient/:id_number/update', async (req, res) => {
+  const idTypes = await IdType.find({});
+  const healthInsurances = await HealthInsurance.find({});
+  const countries = await Country.find({});
+  const locations = await Location.find({});
+
+  const updatedPatientPreObj = patientNewObjectCreator(
+    req.body,
+    idTypes,
+    healthInsurances,
+    countries,
+    locations
+  );
+  
   const { id_number } = req.params;
   const filter = { 'user_data.id_number': id_number, 'role.patient': true };
   const itemsToUpdate = {};
   Object.keys(req.body).forEach((value) => {
-    itemsToUpdate[`user_data.${value}`] = req.body[value];
+    itemsToUpdate[`user_data.${value}`] = JSON.stringify(updatedPatientPreObj.user_data[value]);
   });
   const update = { $set: itemsToUpdate };
   User.findOneAndUpdate(filter, update, { new: true })
