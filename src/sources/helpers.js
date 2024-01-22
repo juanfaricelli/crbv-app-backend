@@ -334,7 +334,7 @@ const patientNewObjectCreator = (
   locations
 ) => {
   const {
-    id_type,
+    id_types,
     id_number,
     born_date,
     first_name,
@@ -391,7 +391,7 @@ const patientNewObjectCreator = (
       patient: true,
     },
     user_data: {
-      id_type: getValueObject(idTypes, id_type),
+      id_type: getValueObject(idTypes, id_types),
       born_date,
       id_number,
       first_name,

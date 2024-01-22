@@ -56,7 +56,6 @@ router.post('/user/patient/create', async (req, res) => {
     const ret = await medicalRecord.save();
     const patient = new User(newPatientPreObj);
     patient.medical_record = ret.id;
-
     patient
       .save()
       .then((data) => res.json(data))
