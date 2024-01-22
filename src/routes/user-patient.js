@@ -91,7 +91,7 @@ router.put('/user/patient/:id_number/update', async (req, res) => {
   const filter = { 'user_data.id_number': id_number, 'role.patient': true };
   const itemsToUpdate = {};
   Object.keys(req.body).forEach((value) => {
-    itemsToUpdate[`user_data.${value}`] = JSON.stringify(updatedPatientPreObj.user_data[value]);
+    itemsToUpdate[`user_data.${value}`] = updatedPatientPreObj.user_data[value];
   });
   const update = { $set: itemsToUpdate };
   User.findOneAndUpdate(filter, update, { new: true })
