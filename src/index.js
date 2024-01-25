@@ -2,10 +2,13 @@ const express = require('express');
 const { default: mongoose } = require('mongoose');
 require('dotenv').config();
 
+const session = require('express-session');
+
 const app = express();
 const PORT = process.env.PORT || 9000;
 const uri = `mongodb+srv://${process.env.APP_MONGODB_USER}:${process.env.APP_MONGODB_PASS}@${process.env.APP_MONGODB_CLUSTER}/?retryWrites=true&w=majority`;
 
+const authRoutes = require('./routes/auth');
 const countryRoutes = require('./routes/countries');
 const diagnosticsRoutes = require('./routes/diagnostics');
 const healthInsurancesRoutes = require('./routes/health-insurances');
@@ -17,9 +20,33 @@ const userPatientRoutes = require('./routes/user-patient');
 const userRoutes = require('./routes/user');
 const medicalRecordRoutes = require('./routes/medical-records');
 
+// session middleware
+app.use(express.urlencoded({ extended: false }));
+app.use(
+  session({
+    resave: false, // don't save session if unmodified
+    saveUninitialized: false, // don't create session until something stored
+    secret: 'shhhh, very secret', // TODO: imrpove this
+    cookie: { maxAge: 28800000 }, // maxAge -> 8 hrs
+  })
+);
+// session middleware - Session-persisted message middleware
+app.use(function(req, res, next){
+  const err = req.session.error;
+  const msg = req.session.success;
+  delete req.session.error;
+  delete req.session.success;
+  res.locals.message = '';
+  if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
+  if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
+  next();
+});
+
 // middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/api', [
+  authRoutes,
   countryRoutes,
   diagnosticsRoutes,
   healthInsurancesRoutes,
