@@ -1,4 +1,6 @@
 const { newMedicalRecordForm } = require('./medicalRecordForm');
+const hash = require('pbkdf2-password')();
+const path = require('path');
 
 const genderOptions = [
   { type: 'male',
@@ -378,7 +380,7 @@ const patientNewObjectCreator = (
     return valueObj;
   };
 
-  return {
+  const newUser =  {
     username: email,
     password: {
       value: `${last_name}${(Math.random() * (9999 - 1000) + 1000).toFixed()}`,
@@ -419,6 +421,16 @@ const patientNewObjectCreator = (
     },
     active_user: true,
   };
+
+  // TODO: check if this is ok here
+  hash({ password: newUser.password.value }, function (err, pass, salt, hash) {
+    if (err) throw err;
+    // store the salt & hash in the "db"
+    newUser.salt = salt;
+    newUser.hash = hash;
+  });
+
+  return newUser;
 };
 
 module.exports = {
