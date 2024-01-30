@@ -29,14 +29,6 @@ const userSchema = mongoose.Schema(
         required: true,
       },
     },
-    salt: {
-      type: String,
-      required: true,
-    },
-    hash: {
-      type: String,
-      required: true,
-    },
     role: {
       admin: {
         type: Boolean,

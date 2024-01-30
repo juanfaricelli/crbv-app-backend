@@ -3,6 +3,7 @@ const { default: mongoose } = require('mongoose');
 require('dotenv').config();
 
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 const app = express();
 const PORT = process.env.PORT || 9000;
@@ -28,6 +29,7 @@ app.use(
     saveUninitialized: false, // don't create session until something stored
     secret: 'shhhh, very secret', // TODO: imrpove this
     cookie: { maxAge: 28800000 }, // maxAge -> 8 hrs
+    store: MongoStore.create({ mongoUrl: uri }),
   })
 );
 // session middleware - Session-persisted message middleware

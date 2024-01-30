@@ -1,6 +1,7 @@
 const { newMedicalRecordForm } = require('./medicalRecordForm');
-const hash = require('pbkdf2-password')();
-const path = require('path');
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const genderOptions = [
   { type: 'male',
@@ -328,7 +329,7 @@ const medicalRecordNewEntryFields = ({
   }),
 });
 
-const patientNewObjectCreator = (
+const patientNewObjectCreator = async (
   fieldRefs,
   idTypes,
   healthInsurances,
@@ -380,10 +381,10 @@ const patientNewObjectCreator = (
     return valueObj;
   };
 
-  const newUser =  {
+  const newUser = {
     username: email,
     password: {
-      value: `${last_name}${(Math.random() * (9999 - 1000) + 1000).toFixed()}`,
+      value: `${last_name}${123}`,
       default: true,
     },
     role: {
@@ -422,20 +423,31 @@ const patientNewObjectCreator = (
     active_user: true,
   };
 
-  // TODO: check if this is ok here
-  hash({ password: newUser.password.value }, function (err, pass, salt, hash) {
-    if (err) throw err;
-    // store the salt & hash in the "db"
-    newUser.salt = salt;
-    newUser.hash = hash;
-  });
-
+  newUser.password.value = await bcrypt.hash(
+    newUser.password.value,
+    saltRounds,
+  );
   return newUser;
 };
+
+const { User } = require('../models/user');
+const logInRequired = async (req, res, next) => {
+  if (!req.session || !req.session.user) {
+    res.status(403).json({ message: 'LogIn required' });
+  } else {
+    req.user = await User.findOne({ username: req.session.user.username });
+    if (!req.user) {
+      res.status(403).json({ message: 'LogIn required. User not found.' });
+    } else {
+      next();
+    }
+  }
+}
 
 module.exports = {
   patientNewFormFields,
   medicalRecordNewEntryFields,
   newMedicalRecordForm,
   patientNewObjectCreator,
+  logInRequired,
 };
