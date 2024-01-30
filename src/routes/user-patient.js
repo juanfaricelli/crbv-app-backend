@@ -2,6 +2,7 @@ const express = require('express');
 const {
   patientNewFormFields,
   patientNewObjectCreator,
+  logInRequired,
 } = require('../sources/helpers');
 const { User } = require('../models/user');
 const { MedicalRecord } = require('../models/medical-record');
@@ -45,7 +46,7 @@ router.post('/user/patient/create', async (req, res) => {
     const locations = await Location.find({});
     const medicalRecord = new MedicalRecord();
 
-    const newPatientPreObj = patientNewObjectCreator(
+    const newPatientPreObj = await patientNewObjectCreator(
       req.body,
       idTypes,
       healthInsurances,
@@ -65,7 +66,7 @@ router.post('/user/patient/create', async (req, res) => {
   }
 });
 
-router.get('/user/patient/:id_number', (req, res) => {
+router.get('/user/patient/:id_number', logInRequired, (req, res) => {
   const { id_number } = req.params;
   User.find({ 'user_data.id_number': id_number, 'role.patient': true })
     .then((data) => res.json(data))
