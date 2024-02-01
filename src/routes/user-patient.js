@@ -13,14 +13,14 @@ const { Location } = require('../models/location');
 
 const router = express.Router();
 
-router.get('/user/patient/all', (req, res) => {
+router.get('/user/patient/all', logInRequired, (req, res) => {
   User.find({ 'role.patient': true })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: `${error}` }));
 });
 
 // this endpoint returns a new patient form
-router.get('/user/patient/new', async (req, res) => {
+router.get('/user/patient/new', logInRequired, async (req, res) => {
   try {
     const idTypes = await IdType.find({});
     const healthInsurances = await HealthInsurance.find({});
@@ -38,7 +38,7 @@ router.get('/user/patient/new', async (req, res) => {
   }
 });
 
-router.post('/user/patient/create', async (req, res) => {
+router.post('/user/patient/create', logInRequired, async (req, res) => {
   try {
     const idTypes = await IdType.find({});
     const healthInsurances = await HealthInsurance.find({});
@@ -73,30 +73,35 @@ router.get('/user/patient/:id_number', logInRequired, (req, res) => {
     .catch((error) => res.json({ message: `${error}` }));
 });
 
-router.put('/user/patient/:id_number/update', async (req, res) => {
-  const idTypes = await IdType.find({});
-  const healthInsurances = await HealthInsurance.find({});
-  const countries = await Country.find({});
-  const locations = await Location.find({});
+router.put(
+  '/user/patient/:id_number/update',
+  logInRequired,
+  async (req, res) => {
+    const idTypes = await IdType.find({});
+    const healthInsurances = await HealthInsurance.find({});
+    const countries = await Country.find({});
+    const locations = await Location.find({});
 
-  const updatedPatientPreObj = patientNewObjectCreator(
-    req.body,
-    idTypes,
-    healthInsurances,
-    countries,
-    locations
-  );
-  
-  const { id_number } = req.params;
-  const filter = { 'user_data.id_number': id_number, 'role.patient': true };
-  const itemsToUpdate = {};
-  Object.keys(req.body).forEach((value) => {
-    itemsToUpdate[`user_data.${value}`] = updatedPatientPreObj.user_data[value];
-  });
-  const update = { $set: itemsToUpdate };
-  User.findOneAndUpdate(filter, update, { new: true })
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: `${error}` }));
-});
+    const updatedPatientPreObj = patientNewObjectCreator(
+      req.body,
+      idTypes,
+      healthInsurances,
+      countries,
+      locations
+    );
+
+    const { id_number } = req.params;
+    const filter = { 'user_data.id_number': id_number, 'role.patient': true };
+    const itemsToUpdate = {};
+    Object.keys(req.body).forEach((value) => {
+      itemsToUpdate[`user_data.${value}`] =
+        updatedPatientPreObj.user_data[value];
+    });
+    const update = { $set: itemsToUpdate };
+    User.findOneAndUpdate(filter, update, { new: true })
+      .then((data) => res.json(data))
+      .catch((error) => res.json({ message: `${error}` }));
+  }
+);
 
 module.exports = router;

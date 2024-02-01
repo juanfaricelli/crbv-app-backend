@@ -28,8 +28,12 @@ app.use(
     resave: false, // don't save session if unmodified
     saveUninitialized: false, // don't create session until something stored
     secret: 'shhhh, very secret', // TODO: imrpove this
-    cookie: { maxAge: 28800000 }, // maxAge -> 8 hrs
-    store: MongoStore.create({ mongoUrl: uri }),
+    cookie: { maxAge: 28800000 }, // maxAge -> 8hrs
+    // cookie: { maxAge: 10000 }, // maxAge -> 10seg
+    store: MongoStore.create({
+      mongoUrl: uri,
+      dbName: process.env.APP_MONGODB_DB_CRBV,
+    }),
   })
 );
 // session middleware - Session-persisted message middleware
