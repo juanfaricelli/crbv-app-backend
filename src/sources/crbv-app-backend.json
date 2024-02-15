@@ -82,7 +82,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:9000/api/user/patient/32323232",
+          "raw": "http://localhost:9000/api/user/patient/32923292",
           "protocol": "http",
           "host": [
             "localhost"
@@ -92,7 +92,7 @@
             "api",
             "user",
             "patient",
-            "32323232"
+            "32923292"
           ]
         }
       },
@@ -235,7 +235,7 @@
           "urlencoded": [
             {
               "key": "username",
-              "value": "juantest",
+              "value": "juan.test100@domain.com",
               "type": "text"
             },
             {
@@ -256,6 +256,42 @@
             "api",
             "auth",
             "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "[LCL] auth/logout",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "username",
+              "value": "juantest",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "123",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:9000/api/auth/logout",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9000",
+          "path": [
+            "api",
+            "auth",
+            "logout"
           ]
         }
       },
