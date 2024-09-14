@@ -4,21 +4,11 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 const genderOptions = [
-  { type: 'male',
-    name: 'Hombre',
-  },
-  { type: 'female',
-    name: 'Mujer',
-  },
-  { type: 'nonbinary',
-    name: 'No Binario',
-  },
-  { type: 'transgender',
-    name: 'Transgenero',
-  },
-  { type: 'other',
-    name: 'Prefiero no decir/Otros',
-  },
+  { type: 'male', name: 'Hombre' },
+  { type: 'female', name: 'Mujer' },
+  { type: 'nonbinary', name: 'No Binario' },
+  { type: 'transgender', name: 'Transgenero' },
+  { type: 'other', name: 'Prefiero no decir/Otros' },
 ];
 const bloodTypeOptions = [
   { name: 'A+' },
@@ -369,9 +359,7 @@ const patientNewObjectCreator = async (
       .find((collItem) => collItem.id === userValue);
   };
   const getLocation = () => {
-    const provinceObj = locations.find(
-      (location) => location.id === province
-    );
+    const provinceObj = locations.find((location) => location.id === province);
     return getValueObject(provinceObj.cities, location);
   };
 
@@ -425,7 +413,7 @@ const patientNewObjectCreator = async (
 
   newUser.password.value = await bcrypt.hash(
     newUser.password.value,
-    saltRounds,
+    saltRounds
   );
   return newUser;
 };
@@ -442,7 +430,7 @@ const logInRequired = async (req, res, next) => {
       next();
     }
   }
-}
+};
 
 module.exports = {
   patientNewFormFields,
