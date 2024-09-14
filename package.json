@@ -20,15 +20,14 @@
   },
   "homepage": "https://github.com/juanfaricelli/crbv-app-backend#readme",
   "dependencies": {
-    "bcrypt": "^5.1.1",
-    "connect-mongo": "^5.1.0",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "express-session": "^1.17.3",
-    "mongodb": "^4.10.0",
-    "mongoose": "^6.7.0"
+    "bcrypt": "5.1.1",
+    "dotenv": "16.4.5",
+    "express": "4.21.0",
+    "express-session": "1.18.0",
+    "mongodb": "4.17.2",
+    "mongoose": "6.13.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "nodemon": "3.1.4"
   }
 }
