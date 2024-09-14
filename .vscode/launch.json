@@ -1,0 +1,30 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch App (Local)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/index.js",
+      "env": {
+        "NODE_ENV": "local"
+      },
+      "runtimeExecutable": "/usr/local/bin/node"  // Adjust this path if necessary
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch App (Dev)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/index.js",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "runtimeExecutable": "/usr/local/bin/node"  // Adjust this path if necessary
+    }
+  ]
+}

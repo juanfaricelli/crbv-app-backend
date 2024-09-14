@@ -1,14 +1,17 @@
-const express = require('express');
-const { default: mongoose } = require('mongoose');
-require('dotenv').config();
+// Load environment variables from .env file
+const env = process.env.NODE_ENV || 'development';
+require('dotenv').config({ path: `.env.${env}` });
 
+const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const { default: mongoose } = require('mongoose');
+const https = require('https');
+const fs = require('fs');
 
 const app = express();
-const PORT = process.env.PORT || 9000;
+const PORT = process.env.APP_PORT || 9000;
 const uri = `mongodb+srv://${process.env.APP_MONGODB_USER}:${process.env.APP_MONGODB_PASS}@${process.env.APP_MONGODB_CLUSTER}/?retryWrites=true&w=majority`;
-
 const authRoutes = require('./routes/auth');
 const countryRoutes = require('./routes/countries');
 const diagnosticsRoutes = require('./routes/diagnostics');
@@ -27,13 +30,16 @@ app.use(
   session({
     resave: false, // don't save session if unmodified
     saveUninitialized: false, // don't create session until something stored
-    secret: 'shhhh, very secret', // TODO: imrpove this
-    cookie: { maxAge: 28800000 }, // maxAge -> 8 hrs
+    secret: 'your_secret_key', // TODO: imrpove this
+    cookie: {
+      maxAge: 28800000, // maxAge -> 8 hrs
+      secure: true, // Set to true if using HTTPS
+    },
     store: MongoStore.create({ mongoUrl: uri }),
   })
 );
 // session middleware - Session-persisted message middleware
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
   const err = req.session.error;
   const msg = req.session.success;
   delete req.session.error;
@@ -68,6 +74,8 @@ app.get('/', (req, res) => res.send('Welcome to my API'));
 // mongodb conection
 mongoose
   .connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
     dbName: process.env.APP_MONGODB_DB_CRBV,
   })
   .then(() =>
@@ -77,4 +85,17 @@ mongoose
   )
   .catch((error) => console.error(error));
 
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+// Read SSL/TLS certificates
+const sslOptions = {
+  key: fs.readFileSync(process.env.SSL_KEY_PATH),
+  cert: fs.readFileSync(process.env.SSL_CERT_PATH)
+};
+
+if (sslOptions) {
+  https.createServer(sslOptions, app).listen(PORT, () => {
+    console.log(`HTTPS Server is running on port ${PORT}`);
+  });
+} else {
+  app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+}
+
