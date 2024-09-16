@@ -375,7 +375,7 @@ const patientNewObjectCreator = async (
       value: `${last_name}${123}`,
       default: true,
     },
-    role: {
+    user_type: {
       admin: false,
       staff: false,
       doctor: false,
@@ -420,7 +420,7 @@ const patientNewObjectCreator = async (
 
 const { User } = require('../models/user');
 const logInRequired = async (req, res, next) => {
-  if (!req.session || !req.session.user) {
+  if (!req.session || !req.session.authenticated || !req.session.user) {
     res.status(403).json({ message: 'LogIn required' });
   } else {
     req.user = await User.findOne({ username: req.session.user.username });
@@ -432,10 +432,30 @@ const logInRequired = async (req, res, next) => {
   }
 };
 
+const { RequestLog } = require('../models/request-log');
+const requestLog = async (req, res, next) => {
+  const log = new RequestLog({
+    method: req.method,
+    url: req.url,
+    headers: req.headers,
+    body: req.body,
+  });
+
+  try {
+    await log.save();
+    next();
+  } catch (error) {
+    console.error('Error logging request:', error);
+    next();
+  }
+};
+
+
 module.exports = {
   patientNewFormFields,
   medicalRecordNewEntryFields,
   newMedicalRecordForm,
   patientNewObjectCreator,
   logInRequired,
+  requestLog,
 };

@@ -14,7 +14,7 @@ const { Location } = require('../models/location');
 const router = express.Router();
 
 router.get('/user/patient/all', logInRequired, (req, res) => {
-  User.find({ 'role.patient': true })
+  User.find({ 'user_type.patient': true })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: `${error}` }));
 });
@@ -68,7 +68,7 @@ router.post('/user/patient/create', logInRequired, async (req, res) => {
 
 router.get('/user/patient/:id_number', logInRequired, (req, res) => {
   const { id_number } = req.params;
-  User.find({ 'user_data.id_number': id_number, 'role.patient': true })
+  User.find({ 'user_data.id_number': id_number, 'user_type.patient': true })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: `${error}` }));
 });
@@ -91,7 +91,7 @@ router.put(
     );
 
     const { id_number } = req.params;
-    const filter = { 'user_data.id_number': id_number, 'role.patient': true };
+    const filter = { 'user_data.id_number': id_number, 'user_type.patient': true };
     const itemsToUpdate = {};
     Object.keys(req.body).forEach((value) => {
       itemsToUpdate[`user_data.${value}`] =

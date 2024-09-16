@@ -23,9 +23,11 @@ const specialtyRoutes = require('./routes/specialties');
 const userPatientRoutes = require('./routes/user-patient');
 const userRoutes = require('./routes/user');
 const medicalRecordRoutes = require('./routes/medical-records');
+const { requestLog } = require('./sources/helpers');
 
-// session middleware
+app.use(requestLog);
 app.use(express.urlencoded({ extended: false }));
+// session middleware
 app.use(
   session({
     resave: false, // don't save session if unmodified
@@ -35,7 +37,10 @@ app.use(
       maxAge: 28800000, // maxAge -> 8 hrs
       secure: true, // Set to true if using HTTPS
     },
-    store: MongoStore.create({ mongoUrl: uri }),
+    store: MongoStore.create({
+      mongoUrl: uri,
+      dbName: process.env.APP_MONGODB_DB_CRBV,
+    }),
   })
 );
 // session middleware - Session-persisted message middleware
@@ -88,7 +93,7 @@ mongoose
 // Read SSL/TLS certificates
 const sslOptions = {
   key: fs.readFileSync(process.env.SSL_KEY_PATH),
-  cert: fs.readFileSync(process.env.SSL_CERT_PATH)
+  cert: fs.readFileSync(process.env.SSL_CERT_PATH),
 };
 
 if (sslOptions) {
@@ -98,4 +103,3 @@ if (sslOptions) {
 } else {
   app.listen(PORT, () => console.log(`Server running on ${PORT}`));
 }
-

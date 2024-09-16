@@ -23,7 +23,10 @@ router.post('/auth/login', async (req, res) => {
         } else {
           if (authenticated) {
             req.session.authenticated = authenticated;
-            req.session.user = { username };
+            const userType = Object.keys(user.user_type).find(
+              (user_type) => user.user_type[user_type]
+            );
+            req.session.user = { username, user_type: userType };
             res.json(req.session);
           } else {
             res.status(403).json({ message: 'Bad Credentials 2' });
@@ -38,10 +41,14 @@ router.post('/auth/login', async (req, res) => {
 
 router.post('/auth/logout', async (req, res) => {
   try {
-    delete req.session.user;
-    res.status(200).json({ message: 'Successfylly logged out' });
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).json({ message: 'Something went wrong' });
+      }
+      res.status(200).json({ message: 'Successfully logged out' });
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Something went bad' });
+    res.status(500).json({ message: 'Something went wrong' });
   }
 });
 

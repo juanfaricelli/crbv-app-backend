@@ -13,7 +13,7 @@ router.post('/user/create/doctor', (req, res) => {
 });
 
 router.get('/user/doctor/all', (req, res) => {
-  User.find({ 'role.doctor': true })
+  User.find({ 'user_type.doctor': true })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message:`${error}`}));
 });
@@ -21,7 +21,7 @@ router.get('/user/doctor/all', (req, res) => {
 // TODO: to be tested
 router.get('/user/doctor/all/specialty/:specialty', (req, res) => {
   User.find({
-    'role.doctor': true,
+    'user_type.doctor': true,
     'user_data.specialties': req.params.specialty,
   })
     .then((data) => res.json(data))
@@ -30,14 +30,14 @@ router.get('/user/doctor/all/specialty/:specialty', (req, res) => {
 
 router.get('/user/doctor/:id_number', (req, res) => {
   const { id_number } = req.params;
-  User.findOne({ 'role.doctor': true, 'user_data.id_number': id_number })
+  User.findOne({ 'user_type.doctor': true, 'user_data.id_number': id_number })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message:`${error}`}));
 });
 
 router.get('/user/doctor/:id', (req, res) => {
   const { id } = req.params;
-  User.findOne({ 'role.doctor': true, 'id': id })
+  User.findOne({ 'user_type.doctor': true, 'id': id })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message:`${error}`}));
 });

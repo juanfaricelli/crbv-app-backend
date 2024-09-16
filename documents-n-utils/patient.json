@@ -4,7 +4,7 @@
     "value": "patientCero",
     "default": true
   },
-  "role": {
+  "user_type": {
     "admin": false,
     "staff": false,
     "doctor": false,
