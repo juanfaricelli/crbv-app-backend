@@ -1,14 +1,16 @@
 const express = require('express');
 const { User } = require('../models/user');
+const { decrypt } = require('../sources/encoderHelper');
 
 const bcrypt = require('bcrypt');
 
 const router = express.Router();
 
 router.post('/auth/login', async (req, res) => {
-  const { username, password } = req.body;
-
   try {
+    const { body } = req.body;
+    const loginInformation = decrypt(body);
+    const { username, password } = JSON.parse(loginInformation);
     if (!(username && password)) throw 'Incorrect user or password';
     User.findOne({ username })
       .then(async (data) => {

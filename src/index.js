@@ -90,13 +90,15 @@ mongoose
   )
   .catch((error) => console.error(error));
 
+// TODO: verify this
 // Read SSL/TLS certificates
 const sslOptions = {
   key: fs.readFileSync(process.env.SSL_KEY_PATH),
   cert: fs.readFileSync(process.env.SSL_CERT_PATH),
 };
+const httpsActive = process.env.NODE_HTTPS === 'true';
 
-if (sslOptions) {
+if (httpsActive && sslOptions) {
   https.createServer(sslOptions, app).listen(PORT, () => {
     console.log(`HTTPS Server is running on port ${PORT}`);
   });

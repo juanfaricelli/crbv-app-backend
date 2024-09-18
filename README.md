@@ -13,4 +13,4 @@ Why Mongo?
 - Scalation is easy-going
 
 - MongoDB User and Pass: mongoDBUser/mongoDBUser
-- VS Code Connection string: mongodb+srv://mongoDBUser:mongoDBUser@cluster0.ecz6e3m.mongodb.net/test
+- VS Code Connection string: mongodb+srv://mongoDBUser:mongoDBUser@cluster0.ecz6e3m.mongodb.net/crbv
