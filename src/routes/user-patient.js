@@ -2,8 +2,8 @@ const express = require('express');
 const {
   patientNewFormFields,
   patientNewObjectCreator,
-  logInRequired,
-} = require('../sources/helpers');
+} = require('../helpers/formFields');
+const { authenticationRequired } = require('../helpers/authenticationHelper');
 const { User } = require('../models/user');
 const { MedicalRecord } = require('../models/medical-record');
 const { IdType } = require('../models/id-types');
@@ -13,14 +13,14 @@ const { Location } = require('../models/location');
 
 const router = express.Router();
 
-router.get('/user/patient/all', logInRequired, (req, res) => {
+router.get('/user/patient/all', authenticationRequired, (req, res) => {
   User.find({ 'user_type.patient': true })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: `${error}` }));
 });
 
 // this endpoint returns a new patient form
-router.get('/user/patient/new', logInRequired, async (req, res) => {
+router.get('/user/patient/new', authenticationRequired, async (req, res) => {
   try {
     const idTypes = await IdType.find({});
     const healthInsurances = await HealthInsurance.find({});
@@ -38,7 +38,7 @@ router.get('/user/patient/new', logInRequired, async (req, res) => {
   }
 });
 
-router.post('/user/patient/create', logInRequired, async (req, res) => {
+router.post('/user/patient/create', authenticationRequired, async (req, res) => {
   try {
     const idTypes = await IdType.find({});
     const healthInsurances = await HealthInsurance.find({});
@@ -66,7 +66,7 @@ router.post('/user/patient/create', logInRequired, async (req, res) => {
   }
 });
 
-router.get('/user/patient/:id_number', logInRequired, (req, res) => {
+router.get('/user/patient/:id_number', authenticationRequired, (req, res) => {
   const { id_number } = req.params;
   User.find({ 'user_data.id_number': id_number, 'user_type.patient': true })
     .then((data) => res.json(data))
@@ -75,7 +75,7 @@ router.get('/user/patient/:id_number', logInRequired, (req, res) => {
 
 router.put(
   '/user/patient/:id_number/update',
-  logInRequired,
+  authenticationRequired,
   async (req, res) => {
     const idTypes = await IdType.find({});
     const healthInsurances = await HealthInsurance.find({});

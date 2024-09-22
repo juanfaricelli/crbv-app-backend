@@ -23,7 +23,7 @@ const specialtyRoutes = require('./routes/specialties');
 const userPatientRoutes = require('./routes/user-patient');
 const userRoutes = require('./routes/user');
 const medicalRecordRoutes = require('./routes/medical-records');
-const { requestLog } = require('./sources/helpers');
+const { requestLog } = require('./helpers/requestLog');
 
 app.use(requestLog);
 app.use(express.urlencoded({ extended: false }));

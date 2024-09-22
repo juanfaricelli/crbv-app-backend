@@ -1,10 +1,12 @@
 const express = require('express');
 const { User } = require('../models/user');
-const { decrypt } = require('../sources/encoderHelper');
+const { decrypt } = require('../helpers/encoderHelper');
 
 const bcrypt = require('bcrypt');
 
 const router = express.Router();
+const code403 = 403;
+const code404 = 404;
 
 router.post('/auth/login', async (req, res) => {
   try {
@@ -14,6 +16,12 @@ router.post('/auth/login', async (req, res) => {
     if (!(username && password)) throw 'Incorrect user or password';
     User.findOne({ username })
       .then(async (data) => {
+        if (!data) {
+          res
+            .status(code404)
+            .json({ code: code404, message: 'User not found' });
+          return;
+        }
         const user = data;
         const authenticated = await bcrypt.compare(
           password,
@@ -31,13 +39,21 @@ router.post('/auth/login', async (req, res) => {
             req.session.user = { username, user_type: userType };
             res.json(req.session);
           } else {
-            res.status(403).json({ message: 'Bad Credentials 2' });
+            res
+              .status(code403)
+              .json({
+                code: code403,
+                message: 'Session went wrong, please log in again',
+              });
           }
         }
       })
       .catch((error) => res.json({ message: `${error}` }));
   } catch (error) {
-    res.status(403).json({ message: `Bad Credentials 1. ERROR: ${error}` });
+    res.status(code403).json({
+      code: code403,
+      message: `Session went wrong, please try again later. ERROR: ${error}`,
+    });
   }
 });
 

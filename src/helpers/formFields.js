@@ -1,4 +1,4 @@
-const { newMedicalRecordForm } = require('./medicalRecordForm');
+const newMedicalRecordForm = require('./medicalRecordForm');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -110,7 +110,6 @@ const formField = {
     name,
   }),
 };
-
 const patientNewFormFields = ({
   idTypes,
   healthInsurances,
@@ -252,7 +251,6 @@ const patientNewFormFields = ({
     name: 'email',
   }),
 });
-
 const appointmentStates = [
   {
     type: 'absent',
@@ -267,7 +265,6 @@ const appointmentStates = [
     name: 'Nueva Nota',
   },
 ];
-
 const medicalRecordNewEntryFields = ({
   patient_name,
   appointment,
@@ -318,7 +315,6 @@ const medicalRecordNewEntryFields = ({
     name: 'observations',
   }),
 });
-
 const patientNewObjectCreator = async (
   fieldRefs,
   idTypes,
@@ -418,44 +414,9 @@ const patientNewObjectCreator = async (
   return newUser;
 };
 
-const { User } = require('../models/user');
-const logInRequired = async (req, res, next) => {
-  if (!req.session || !req.session.authenticated || !req.session.user) {
-    res.status(403).json({ message: 'LogIn required' });
-  } else {
-    req.user = await User.findOne({ username: req.session.user.username });
-    if (!req.user) {
-      res.status(403).json({ message: 'LogIn required. User not found.' });
-    } else {
-      next();
-    }
-  }
-};
-
-const { RequestLog } = require('../models/request-log');
-const requestLog = async (req, res, next) => {
-  const log = new RequestLog({
-    method: req.method,
-    url: req.url,
-    headers: req.headers,
-    body: req.body,
-  });
-
-  try {
-    await log.save();
-    next();
-  } catch (error) {
-    console.error('Error logging request:', error);
-    next();
-  }
-};
-
-
 module.exports = {
   patientNewFormFields,
   medicalRecordNewEntryFields,
   newMedicalRecordForm,
   patientNewObjectCreator,
-  logInRequired,
-  requestLog,
 };
