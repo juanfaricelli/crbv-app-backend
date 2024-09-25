@@ -28,9 +28,7 @@ router.post('/auth/login', async (req, res) => {
           user.password.value
         );
 
-        if (req.session && req.session.authenticated) {
-          res.json(req.session);
-        } else {
+        if (req.session) {
           if (authenticated) {
             req.session.authenticated = authenticated;
             const userType = Object.keys(user.user_type).find(
@@ -39,12 +37,10 @@ router.post('/auth/login', async (req, res) => {
             req.session.user = { username, user_type: userType };
             res.json(req.session);
           } else {
-            res
-              .status(code403)
-              .json({
-                code: code403,
-                message: 'Session went wrong, please log in again',
-              });
+            res.status(code403).json({
+              code: code403,
+              message: 'username or password is incorrect',
+            });
           }
         }
       })
