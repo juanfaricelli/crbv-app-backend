@@ -29,7 +29,7 @@ const userSchema = mongoose.Schema(
         required: true,
       },
     },
-    role: {
+    user_type: {
       admin: {
         type: Boolean,
         required: true,

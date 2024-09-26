@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/user/create/admin', (req, res) => {
   const user = new User(req.body);
-  // TODO: add role validation
+  // TODO: add user_type validation
   user
     .save()
     .then((data) => res.json(data))

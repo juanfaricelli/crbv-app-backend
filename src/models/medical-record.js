@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { newMedicalRecordForm } = require('../sources/helpers');
+const newMedicalRecordForm = require('../helpers/formFields');
 
 const COLL_MEDICAL_RECORDS = 'medical_records';
 

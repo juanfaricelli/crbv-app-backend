@@ -4,9 +4,12 @@
   "description": "MongoDB",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "start-dev": "nodemon src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "NODE_ENV=production node src/index.js",
+    "start-local": "NODE_ENV=local NODE_HTTPS=false nodemon src/index.js",
+    "start-local-https": "NODE_ENV=local NODE_HTTPS=true nodemon src/index.js",
+    "start-dev": "NODE_ENV=development NODE_HTTPS=false nodemon src/index.js",
+    "start-dev-https": "NODE_ENV=development NODE_HTTPS=true nodemon src/index.js",
+    "test": "NODE_ENV=test nodemon src/index.js"
   },
   "repository": {
     "type": "git",
@@ -20,12 +23,15 @@
   },
   "homepage": "https://github.com/juanfaricelli/crbv-app-backend#readme",
   "dependencies": {
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "mongodb": "^4.10.0",
-    "mongoose": "^6.7.0"
+    "bcrypt": "5.1.1",
+    "connect-mongo": "^5.1.0",
+    "crypto-js": "^4.2.0",
+    "dotenv": "16.4.5",
+    "express": "4.21.0",
+    "express-session": "1.18.0",
+    "mongoose": "6.13.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "nodemon": "3.1.4"
   }
 }

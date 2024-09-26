@@ -2,7 +2,7 @@ const express = require('express');
 const {
   medicalRecordNewEntryFields,
   newMedicalRecordForm,
-} = require('../sources/helpers');
+} = require('../helpers/formFields');
 const { MedicalRecord } = require('../models/medical-record');
 const { User } = require('../models/user');
 const { Specialty } = require('../models/speciality');

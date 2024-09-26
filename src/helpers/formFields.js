@@ -1,21 +1,14 @@
-const { newMedicalRecordForm } = require('./medicalRecordForm');
+const newMedicalRecordForm = require('./medicalRecordForm');
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const genderOptions = [
-  { type: 'male',
-    name: 'Hombre',
-  },
-  { type: 'female',
-    name: 'Mujer',
-  },
-  { type: 'nonbinary',
-    name: 'No Binario',
-  },
-  { type: 'transgender',
-    name: 'Transgenero',
-  },
-  { type: 'other',
-    name: 'Prefiero no decir/Otros',
-  },
+  { type: 'male', name: 'Hombre' },
+  { type: 'female', name: 'Mujer' },
+  { type: 'nonbinary', name: 'No Binario' },
+  { type: 'transgender', name: 'Transgenero' },
+  { type: 'other', name: 'Prefiero no decir/Otros' },
 ];
 const bloodTypeOptions = [
   { name: 'A+' },
@@ -117,7 +110,6 @@ const formField = {
     name,
   }),
 };
-
 const patientNewFormFields = ({
   idTypes,
   healthInsurances,
@@ -259,7 +251,6 @@ const patientNewFormFields = ({
     name: 'email',
   }),
 });
-
 const appointmentStates = [
   {
     type: 'absent',
@@ -274,7 +265,6 @@ const appointmentStates = [
     name: 'Nueva Nota',
   },
 ];
-
 const medicalRecordNewEntryFields = ({
   patient_name,
   appointment,
@@ -325,8 +315,7 @@ const medicalRecordNewEntryFields = ({
     name: 'observations',
   }),
 });
-
-const patientNewObjectCreator = (
+const patientNewObjectCreator = async (
   fieldRefs,
   idTypes,
   healthInsurances,
@@ -366,9 +355,7 @@ const patientNewObjectCreator = (
       .find((collItem) => collItem.id === userValue);
   };
   const getLocation = () => {
-    const provinceObj = locations.find(
-      (location) => location.id === province
-    );
+    const provinceObj = locations.find((location) => location.id === province);
     return getValueObject(provinceObj.cities, location);
   };
 
@@ -378,13 +365,13 @@ const patientNewObjectCreator = (
     return valueObj;
   };
 
-  return {
+  const newUser = {
     username: email,
     password: {
-      value: `${last_name}${(Math.random() * (9999 - 1000) + 1000).toFixed()}`,
+      value: `${last_name}${123}`,
       default: true,
     },
-    role: {
+    user_type: {
       admin: false,
       staff: false,
       doctor: false,
@@ -419,6 +406,12 @@ const patientNewObjectCreator = (
     },
     active_user: true,
   };
+
+  newUser.password.value = await bcrypt.hash(
+    newUser.password.value,
+    saltRounds
+  );
+  return newUser;
 };
 
 module.exports = {
