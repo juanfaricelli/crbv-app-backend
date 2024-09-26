@@ -75,7 +75,7 @@ app.use('/api', [
 // routes
 app.get('/ping', (req, res) => {
   console.log('pong');
-  res.send('pong')
+  res.send('pong');
 });
 app.get('/', (req, res) => res.send('Welcome to my API'));
 
@@ -100,11 +100,12 @@ const sslOptions = {
   cert: fs.readFileSync(process.env.SSL_CERT_PATH),
 };
 const httpsActive = process.env.NODE_HTTPS === 'true';
+const ANY_HOST = '0.0.0.0';
 
 if (httpsActive && sslOptions) {
-  https.createServer(sslOptions, app).listen(PORT, () => {
+  https.createServer(sslOptions, app).listen(PORT, ANY_HOST, () => {
     console.log(`HTTPS Server is running on port ${PORT}`);
   });
 } else {
-  app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+  app.listen(PORT, ANY_HOST, () => console.log(`Server running on ${PORT}`));
 }
