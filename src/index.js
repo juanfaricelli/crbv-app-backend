@@ -107,5 +107,7 @@ if (httpsActive && sslOptions) {
     console.log(`HTTPS Server is running on port ${PORT}`);
   });
 } else {
-  app.listen(PORT, ANY_HOST, () => console.log(`Server running on ${PORT}`));
+  app.listen(PORT, ANY_HOST, () =>
+    console.log(`Server ${env} running on ${PORT}`)
+  );
 }
