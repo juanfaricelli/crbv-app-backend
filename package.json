@@ -4,11 +4,10 @@
   "description": "MongoDB",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node src/index.js",
+    "start": "NODE_ENV=production NODE_HTTPS=true node src/index.js",
     "start-local": "NODE_ENV=local NODE_HTTPS=false nodemon src/index.js",
     "start-local-https": "NODE_ENV=local NODE_HTTPS=true nodemon src/index.js",
-    "start-dev": "NODE_ENV=development NODE_HTTPS=false nodemon src/index.js",
-    "start-dev-https": "NODE_ENV=development NODE_HTTPS=true nodemon src/index.js",
+    "start-dev": "NODE_ENV=development NODE_HTTPS=true nodemon src/index.js",
     "test": "NODE_ENV=test nodemon src/index.js"
   },
   "repository": {
