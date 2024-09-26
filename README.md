@@ -14,3 +14,7 @@ Why Mongo?
 
 - MongoDB User and Pass: mongoDBUser/mongoDBUser
 - VS Code Connection string: mongodb+srv://mongoDBUser:mongoDBUser@cluster0.ecz6e3m.mongodb.net/crbv
+
+RenderIO
+- run ```npm run start```
+- request to ```https://crbv-app-backend.onrender.com/ping```

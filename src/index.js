@@ -73,10 +73,7 @@ app.use('/api', [
 ]);
 
 // routes
-app.get('/ping', (req, res) => {
-  console.log('pong');
-  res.send('pong');
-});
+app.get('/ping', (req, res) => res.send('pong'));
 app.get('/', (req, res) => res.send('Welcome to my API'));
 
 // mongodb conection
