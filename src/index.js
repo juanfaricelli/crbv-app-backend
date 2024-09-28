@@ -10,8 +10,10 @@ const https = require('https');
 const fs = require('fs');
 
 const app = express();
+
 const PORT = process.env.APP_PORT || 9000;
 const uri = `mongodb+srv://${process.env.APP_MONGODB_USER}:${process.env.APP_MONGODB_PASS}@${process.env.APP_MONGODB_CLUSTER}/?retryWrites=true&w=majority`;
+const frontendUrl = process.env.APP_FRONTEND;
 const authRoutes = require('./routes/auth');
 const countryRoutes = require('./routes/countries');
 const diagnosticsRoutes = require('./routes/diagnostics');
@@ -25,6 +27,11 @@ const userRoutes = require('./routes/user');
 const medicalRecordRoutes = require('./routes/medical-records');
 const { requestLog } = require('./helpers/requestLog');
 
+app.use(
+  cors({
+    origin: frontendUrl,
+  })
+);
 app.use(requestLog);
 app.use(express.urlencoded({ extended: false }));
 // session middleware
