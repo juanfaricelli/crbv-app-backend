@@ -5,6 +5,7 @@ require('dotenv').config({ path: `.env.${env}` });
 const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const cors = require('cors');
 const { default: mongoose } = require('mongoose');
 const https = require('https');
 const fs = require('fs');
