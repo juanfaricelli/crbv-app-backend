@@ -7,8 +7,12 @@ const requestLog = async (req, res, next) => {
     body: req.body,
   });
 
+  const isExcluded = ['/ping'].includes(req.url);
+
   try {
-    await log.save();
+    if (!isExcluded) {
+      await log.save();
+    }
     next();
   } catch (error) {
     console.error('Error logging request:', error);
