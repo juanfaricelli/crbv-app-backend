@@ -39,15 +39,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   session({
     resave: false, // don't save session if unmodified
-    saveUninitialized: false, // don't create session until something stored
-    secret: 'your_secret_key', // TODO: imrpove this
+    saveUninitialized: false, // don't create session until stored
+    secret: 'your_secret_key', // TODO: improve this
     cookie: {
       maxAge: 28800000, // maxAge -> 8 hrs
-      secure: true, // Set to true if using HTTPS
+      secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS
+      httpOnly: true, // Ensure the cookie is only accessible via HTTP(S)
+      path: '/', // Path where the cookie is valid
+      sameSite: 'strict', // Strict same-site policy
     },
     store: MongoStore.create({
       mongoUrl: uri,
       dbName: process.env.APP_MONGODB_DB_CRBV,
+      stringify: false,
     }),
   })
 );

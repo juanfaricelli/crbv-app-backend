@@ -38,6 +38,9 @@ router.post('/auth/login', async (req, res) => {
             req.session.user = { username, user_type: userType };
             const token = crypto.randomBytes(16).toString('hex');
             req.session.token = token;
+            req.session.session_id = req.sessionID;
+            req.session.session_id = req.sessionID;
+            req.session.created_at = new Date().toISOString();
             res.json(req.session);
           } else {
             res.status(code403).json({

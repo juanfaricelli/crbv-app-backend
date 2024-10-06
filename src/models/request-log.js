@@ -8,6 +8,7 @@ const requestLogSchema = mongoose.Schema({
   headers: Object,
   body: Object,
   timestamp: { type: Date, default: Date.now },
+  session: Object,
 });
 const RequestLog = mongoose.model(COLL_REQUEST_LOGS, requestLogSchema);
 

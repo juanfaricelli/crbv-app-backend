@@ -5,6 +5,7 @@ const requestLog = async (req, res, next) => {
     url: req.url,
     headers: req.headers,
     body: req.body,
+    session: req.session,
   });
 
   const isExcluded = ['/ping'].includes(req.url);
