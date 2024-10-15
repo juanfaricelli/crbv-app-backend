@@ -46,7 +46,7 @@ const entrySchema = mongoose.Schema(
 
 const medicalRecordSchema = mongoose.Schema(
   {
-    questionary: {
+    questionnaire: {
       type: Object,
       required: false,
       default: { ...newMedicalRecordForm },

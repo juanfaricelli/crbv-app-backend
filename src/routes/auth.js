@@ -1,5 +1,6 @@
 const express = require('express');
 const { User } = require('../models/user');
+const { Session } = require('../models/session');
 const { decrypt } = require('../helpers/encoderHelper');
 const crypto = require('crypto');
 
@@ -61,7 +62,8 @@ router.post('/auth/login', async (req, res) => {
 
 router.post('/auth/logout', async (req, res) => {
   try {
-    req.session.destroy((err) => {
+    await Session.deleteOne({ session_id: req.sessionID });
+    req.session.destroy(async (err) => {
       if (err) {
         return res.status(500).json({ message: 'Something went wrong' });
       }
