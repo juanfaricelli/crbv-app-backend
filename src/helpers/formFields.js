@@ -130,10 +130,10 @@ const patientNewFormFields = ({
     placeholder: 'Nº de Documento(solo números)',
     name: 'id_number',
   }),
-  born_date: formField.datepicker({
+  birthdate: formField.datepicker({
     label: 'Fecha de Nacimiento',
     placeholder: 'Fecha de Nacimiento',
-    name: 'born_date',
+    name: 'birthdate',
   }),
   first_name: formField.inputText({
     label: 'Nombre',
@@ -325,7 +325,7 @@ const patientNewObjectCreator = async (
   const {
     id_types,
     id_number,
-    born_date,
+    birthdate,
     first_name,
     last_name,
     age,
@@ -355,14 +355,8 @@ const patientNewObjectCreator = async (
       .find((collItem) => collItem.id === userValue);
   };
   const getLocation = () => {
-    const provinceObj = locations.find((location) => location.id === province);
+    const provinceObj = locations.find((location) => location.id === province.id);
     return getValueObject(provinceObj.cities, location);
-  };
-
-  const objectValueHelper = (coll, propToSave, userValue) => {
-    const valueObj = {};
-    coll.forEach((opt) => (valueObj[opt[propToSave]] = opt.type === userValue));
-    return valueObj;
   };
 
   const newUser = {
@@ -379,20 +373,16 @@ const patientNewObjectCreator = async (
     },
     user_data: {
       id_type: getValueObject(idTypes, id_types),
-      born_date,
+      birthdate,
       id_number,
       first_name,
       last_name,
       age,
-      gender: objectValueHelper(genderOptions, 'type', gender),
+      gender,
       phone,
       health_insurance: getValueObject(healthInsurances, health_insurance),
       health_insurance_id,
-      marital_status: objectValueHelper(
-        maritalStatusOptions,
-        'type',
-        marital_status
-      ),
+      marital_status,
       nationality,
       country: getValueObject(countries, country),
       province: getValueObject(locations, province),

@@ -53,7 +53,7 @@ const userSchema = mongoose.Schema(
         type: Number,
         required: true,
       },
-      born_date: {
+      birthdate: {
         type: Date,
         required: true,
       },
@@ -185,6 +185,18 @@ const userSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+// Pre-save middleware to calculate age
+userSchema.pre('save', function (next) {
+  const user = this;
+  if (user.user_data.birthdate) {
+    const birthdate = new Date(user.user_data.birthdate);
+    const ageDifMs = Date.now() - birthdate.getTime();
+    const ageDate = new Date(ageDifMs); // milliseconds from epoch
+    user.user_data.age = Math.abs(ageDate.getUTCFullYear() - 1970);
+  }
+  next();
+});
+
 const User = mongoose.model(COLL_USERS, userSchema);
 
 module.exports = { User };

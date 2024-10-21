@@ -17,7 +17,7 @@ const router = express.Router();
 const middlewares = [authenticationRequired, requestLog];
 
 router.get('/user/patient/all', middlewares, (req, res) => {
-  User.find({ 'user_type.patient': true })
+  User.find({ 'user_type.patient': true }, { password: 0 })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: `${error}` }));
 });
@@ -70,39 +70,60 @@ router.post('/user/patient/create', middlewares, async (req, res) => {
 });
 
 router.get('/user/patient/:id_number', middlewares, (req, res) => {
-  const { id_number } = req.params;
-  User.find({ 'user_data.id_number': id_number, 'user_type.patient': true })
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: `${error}` }));
+  try {
+    const { id_number } = req.params;
+    User.findOne(
+      { 'user_data.id_number': id_number, 'user_type.patient': true },
+      { password: 0 }
+    )
+      .then((data) => {
+        if (data) {
+          res.json(data._doc);
+        } else {
+          res.json({ message: 'Patient not found' });
+        }
+      })
+      .catch((error) => res.json({ message: `${error}` }));
+  } catch (error) {
+    res.json({ message: `${error}` });
+  }
 });
 
 router.put('/user/patient/:id_number/update', middlewares, async (req, res) => {
-  const idTypes = await IdType.find({});
-  const healthInsurances = await HealthInsurance.find({});
-  const countries = await Country.find({});
-  const locations = await Location.find({});
+  try {
+    const idTypes = await IdType.find({});
+    const healthInsurances = await HealthInsurance.find({});
+    const countries = await Country.find({});
+    const locations = await Location.find({});
 
-  const updatedPatientPreObj = patientNewObjectCreator(
-    req.body,
-    idTypes,
-    healthInsurances,
-    countries,
-    locations
-  );
+    const updatedPatientPreObj = await patientNewObjectCreator(
+      req.body,
+      idTypes,
+      healthInsurances,
+      countries,
+      locations
+    );
 
-  const { id_number } = req.params;
-  const filter = {
-    'user_data.id_number': id_number,
-    'user_type.patient': true,
-  };
-  const itemsToUpdate = {};
-  Object.keys(req.body).forEach((value) => {
-    itemsToUpdate[`user_data.${value}`] = updatedPatientPreObj.user_data[value];
-  });
-  const update = { $set: itemsToUpdate };
-  User.findOneAndUpdate(filter, update, { new: true })
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: `${error}` }));
+    const { id_number } = req.params;
+    const filter = {
+      'user_data.id_number': id_number,
+      'user_type.patient': true,
+    };
+    const itemsToUpdate = {};
+    Object.keys(req.body).forEach((value) => {
+      itemsToUpdate[`user_data.${value}`] =
+        updatedPatientPreObj.user_data[value];
+    });
+    const update = { $set: itemsToUpdate };
+    User.findOneAndUpdate(filter, update, {
+      new: true,
+      projection: { password: 0 },
+    })
+      .then((data) => res.json(data))
+      .catch((error) => res.json({ message: `${error}` }));
+  } catch (error) {
+    res.json({ message: `${error}` });
+  }
 });
 
 module.exports = router;
