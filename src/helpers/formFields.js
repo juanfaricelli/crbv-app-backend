@@ -355,7 +355,7 @@ const patientNewObjectCreator = async (
       .find((collItem) => collItem.id === userValue);
   };
   const getLocation = () => {
-    const provinceObj = locations.find((location) => location.id === province.id);
+    const provinceObj = locations.find((location) => location.id === province);
     return getValueObject(provinceObj.cities, location);
   };
 
@@ -378,11 +378,24 @@ const patientNewObjectCreator = async (
       first_name,
       last_name,
       age,
-      gender,
+      gender: {
+        male: gender === 'male',
+        female: gender === 'female',
+        nonbinary: gender === 'nonbinary',
+        transgender: gender === 'transgender',
+        other: gender === 'other',
+      },
       phone,
       health_insurance: getValueObject(healthInsurances, health_insurance),
       health_insurance_id,
-      marital_status,
+      marital_status: {
+        single: marital_status === 'single',
+        married: marital_status === 'married',
+        divorced: marital_status === 'divorced',
+        widowed: marital_status === 'widowed',
+        cohabiting: marital_status === 'cohabiting',
+        civil_union: marital_status === 'civil_union',
+      },
       nationality,
       country: getValueObject(countries, country),
       province: getValueObject(locations, province),
