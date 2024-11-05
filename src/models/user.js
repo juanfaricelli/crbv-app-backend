@@ -174,10 +174,6 @@ const userSchema = mongoose.Schema(
         required: false,
       },
     },
-    medical_record: {
-      type: String,
-      required: false,
-    },
     active_user: {
       type: Boolean,
       required: true,

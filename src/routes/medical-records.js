@@ -11,7 +11,7 @@ const { PatientCondition } = require('../models/patient-condition');
 const router = express.Router();
 
 router.post('/medical-record/create', (req, res) => {
-  const medicalRecord = new MedicalRecord();
+  const medicalRecord = new MedicalRecord(req.body);
   medicalRecord
     .save()
     .then((data) => res.json(data))
