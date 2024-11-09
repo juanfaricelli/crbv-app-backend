@@ -20,7 +20,7 @@ router.post('/medical-record/create', (req, res) => {
 
 router.get('/medical-record/:id', (req, res) => {
   const { id } = req.params;
-  MedicalRecord.find({ _id: id })
+  MedicalRecord.find({ patientId: id })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: `${error}` }));
 });
