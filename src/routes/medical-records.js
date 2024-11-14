@@ -21,6 +21,7 @@ router.post('/medical-record/create', (req, res) => {
 router.get('/medical-record/:id', (req, res) => {
   const { id } = req.params;
   MedicalRecord.find({ patientId: id })
+    .sort({ createdAt: -1 })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: `${error}` }));
 });
