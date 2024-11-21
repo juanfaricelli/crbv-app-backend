@@ -1,64 +1,66 @@
 const mongoose = require('mongoose');
-const newMedicalRecordForm = require('../helpers/formFields');
 
 const COLL_MEDICAL_RECORDS = 'medical_records';
 
-const idNamePropsSchema = {
-  id: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-};
-
-const entrySchema = mongoose.Schema(
+const medicalRecordSchema = mongoose.Schema(
   {
-    date: {
-      type: Date,
-      require: true,
+    fullName: {
+      type: String,
+      required: true,
     },
-    speciality: idNamePropsSchema,
-    doctor: idNamePropsSchema,
     appointment: {
       type: String,
-      required: false,
+      required: true,
     },
-    entry_reason: idNamePropsSchema,
-    description: {
+    specialty: {
       type: String,
       required: true,
     },
-    patient_status: idNamePropsSchema,
-    exit_date: {
-      type: Date,
+    patientCondition: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'PatientCondition',
       required: true,
     },
-    hospitalized_days: {
+    appointmentManagement: {
+      type: String,
+      required: true,
+    },
+    summary: {
+      type: String,
+      required: true,
+    },
+    comments: {
+      type: String,
+      required: true,
+    },
+    deceasedDate: {
+      type: Date,
+      required: false,
+    },
+    voluntaryRetirementDate: {
+      type: Date,
+      required: false,
+    },
+    hospitalizedDate: {
+      type: Date,
+      required: false,
+    },
+    recoveredDate: {
+      type: Date,
+      required: false,
+    },
+    patientId: {
       type: Number,
       required: true,
     },
+    doctorId: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
-const medicalRecordSchema = mongoose.Schema(
-  {
-    questionnaire: {
-      type: Object,
-      required: false,
-      default: { ...newMedicalRecordForm },
-    },
-    entries: {
-      type: [entrySchema],
-      required: false,
-      default: [],
-    },
-  },
-  { timestamps: true }
-);
 const MedicalRecord = mongoose.model(COLL_MEDICAL_RECORDS, medicalRecordSchema);
 
 module.exports = { MedicalRecord };

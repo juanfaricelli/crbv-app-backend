@@ -6,7 +6,6 @@ const {
 const { authenticationRequired } = require('../helpers/authenticationHelper');
 const { requestLog } = require('../helpers/requestLog');
 const { User } = require('../models/user');
-const { MedicalRecord } = require('../models/medical-record');
 const { IdType } = require('../models/id-types');
 const { HealthInsurance } = require('../models/health-insurance');
 const { Country } = require('../models/country');
@@ -47,7 +46,6 @@ router.post('/user/patient/create', middlewares, async (req, res) => {
     const healthInsurances = await HealthInsurance.find({});
     const countries = await Country.find({});
     const locations = await Location.find({});
-    const medicalRecord = new MedicalRecord();
 
     const newPatientPreObj = await patientNewObjectCreator(
       req.body,
@@ -57,9 +55,7 @@ router.post('/user/patient/create', middlewares, async (req, res) => {
       locations
     );
 
-    const ret = await medicalRecord.save();
     const patient = new User(newPatientPreObj);
-    patient.medical_record = ret.id;
     patient
       .save()
       .then((data) => res.json(data))
