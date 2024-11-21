@@ -177,7 +177,7 @@ const patientNewFormFields = ({
     valueKey: 'id',
     valueLabel: 'name',
   }),
-  health_insurance_id: formField.inputNumber({
+  health_insurance_id: formField.inputText({
     label: 'Nº de Socio',
     placeholder: 'Nº de Socio',
     name: 'health_insurance_id',
@@ -355,8 +355,8 @@ const patientNewObjectCreator = async (
       .find((collItem) => collItem.id === userValue);
   };
   const getLocation = () => {
-    const provinceObj = locations.find((location) => location.id === province);
-    return getValueObject(provinceObj.cities, location);
+    const provinceObj = locations.find((loc) => loc.id === province.id);
+    return getValueObject(provinceObj.cities, location.id);
   };
 
   const newUser = {
@@ -378,27 +378,14 @@ const patientNewObjectCreator = async (
       first_name,
       last_name,
       age,
-      gender: {
-        male: gender === 'male',
-        female: gender === 'female',
-        nonbinary: gender === 'nonbinary',
-        transgender: gender === 'transgender',
-        other: gender === 'other',
-      },
+      gender,
       phone,
-      health_insurance: getValueObject(healthInsurances, health_insurance),
+      health_insurance: getValueObject(healthInsurances, health_insurance.id),
       health_insurance_id,
-      marital_status: {
-        single: marital_status === 'single',
-        married: marital_status === 'married',
-        divorced: marital_status === 'divorced',
-        widowed: marital_status === 'widowed',
-        cohabiting: marital_status === 'cohabiting',
-        civil_union: marital_status === 'civil_union',
-      },
+      marital_status,
       nationality,
       country: getValueObject(countries, country),
-      province: getValueObject(locations, province),
+      province: getValueObject(locations, province.id),
       location: getLocation(),
       street,
       street_num,
@@ -409,7 +396,6 @@ const patientNewObjectCreator = async (
     },
     active_user: true,
   };
-
   newUser.password.value = await bcrypt.hash(
     newUser.password.value,
     saltRounds
